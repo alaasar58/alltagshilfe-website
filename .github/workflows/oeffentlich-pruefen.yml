@@ -1,0 +1,55 @@
+name: oeffentlich-pruefen
+
+# Stellt sicher, dass nur Website-Dateien in diesem öffentlichen
+# Repository landen.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Nur erlaubte Dateien
+        run: |
+          erlaubt='^(index\.html|robots\.txt|sitemap\.xml|CNAME|_config\.yml|\.gitignore|CLAUDE\.md|(privat|firmen|stellen|impressum|datenschutz)(/[a-z0-9-]+)*/index\.html|assets/[a-z0-9-]+\.(css|js)|bilder/[A-Za-z0-9_-]+\.(webp|png|jpg|jpeg|svg|ico)|\.github/workflows/[a-z0-9-]+\.yml)$'
+          fehler=0
+          while IFS= read -r datei; do
+            if ! printf '%s\n' "$datei" | grep -qE "$erlaubt"; then
+              echo "::error file=$datei::Datei ist nicht für das öffentliche Repository freigegeben"
+              fehler=1
+            fi
+          done < <(git ls-files)
+          exit $fehler
+
+      - name: Keine internen Inhalte
+        run: |
+          muster='iam\.gserviceaccount\.com|docs\.google\.com/spreadsheets|spreadsheets/d/|BEGIN [A-Z ]*PRIVATE KEY|"private_key"|_docs/|_backend/|_tests/|google-apps-script/|@(gmail|googlemail|web|gmx|yahoo|outlook|hotmail|icloud|t-online)\.'
+          if git ls-files -z -- . ':!:.github' ':!:.gitignore' ':!:CLAUDE.md' \
+              | xargs -0 grep -nIiE "$muster"; then
+            echo "::error::Interne oder private Angaben gefunden"
+            exit 1
+          fi
+
+      - name: Nur Adressen der Firmendomain
+        run: |
+          fremd=$(git ls-files -z -- '*.html' '*.js' '*.css' '*.xml' '*.txt' \
+            | xargs -0 grep -hoIE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' \
+            | grep -viE '@service-alltagshilfe\.de$' | sort -u || true)
+          if [ -n "$fremd" ]; then
+            echo "::error::Fremde E-Mail-Adressen gefunden:"; echo "$fremd"; exit 1
+          fi
+
+      - name: Dateigröße
+        run: |
+          gross=$(git ls-files -z | xargs -0 -I{} find {} -maxdepth 0 -size +3M)
+          if [ -n "$gross" ]; then
+            echo "::error::Dateien größer als 3 MB:"; echo "$gross"; exit 1
+          fi

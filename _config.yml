@@ -1,0 +1,5 @@
+# GitHub Pages: nur die Website ausliefern, Arbeitsdateien nicht.
+exclude:
+  - CLAUDE.md
+  - .github
+  - .gitignore

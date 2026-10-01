@@ -1,0 +1,28 @@
+# Dieses Repository ist öffentlich und enthält nur die Website.
+# Interne Unterlagen gehören ins private Repository.
+_docs/
+_backend/
+_tests/
+_intern/
+google-apps-script/
+*.gs
+*.csv
+*.xlsx
+*.xls
+*.docx
+*.pdf
+*.zip
+*.env
+.env*
+*.key
+*.pem
+*credentials*.json
+*service-account*.json
+
+# Lokale Werkzeuge
+node_modules/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
