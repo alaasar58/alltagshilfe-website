@@ -736,13 +736,9 @@ document.querySelectorAll('.ajax-form').forEach(form => {
       ];
 
       if(einwilligung && einwilligung.checked){
-        zeilen.push(
-          'Einwilligung für künftige Saison-Angebote erteilt. Wortlaut: "Freiwillig: Ich möchte auch künftig ' +
-          'Saison-Angebote per E-Mail erhalten. Diese Einwilligung kann ich jederzeit formlos widerrufen." ' +
-          'Hinweis: Vor dem Versand von Werbe-E-Mails ist eine Bestätigung durch den Empfänger einzuholen.'
-        );
+        zeilen.push('Newsletter gewünscht (wird erst nach Bestätigung per E-Mail wirksam).');
       }else{
-        zeilen.push('Keine Einwilligung für künftige Werbe-E-Mails – nur einmaliges Angebot zulässig.');
+        zeilen.push('Kein Newsletter gewünscht.');
       }
 
       nachricht.value = zeilen.join(' ');
