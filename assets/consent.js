@@ -92,87 +92,46 @@
       default: 'de',
       translations: {
         de: {
+          /* Stufe 1: kurz. Stufe 2: Einstellungen im selben Fenster.
+             Stufe 3: alle Details auf /cookies/ (nur ueber diese Links). */
           consentModal: {
-            title: 'Ihre Datenschutz-Einstellungen',
+            title: 'Cookies? Nur wenn Sie möchten.',
             description:
-              'Mit Ihrer Einwilligung nutzen wir Google Analytics (Statistik) und die ' +
-              'Conversion-Messung von Google Ads (Marketing), jeweils über den Google Tag Manager. ' +
-              'Damit sehen wir, wie unsere Website genutzt wird und ob Anfragen über unsere Anzeigen ' +
-              'zustande kommen. Dafür werden Cookies gespeichert und Daten an Google übermittelt, ' +
-              'auch in die USA. Die Nutzung ist freiwillig; wenn Sie ablehnen, können Sie die Website ' +
-              'ohne Einschränkung nutzen. Ihre Auswahl können Sie jederzeit über ' +
-              '„Cookie-Einstellungen“ unten auf jeder Seite ändern oder widerrufen.',
+              'Mit Ihrer Zustimmung nutzen wir Google Analytics und Google Ads, um zu sehen, ' +
+              'wie unsere Website ankommt. Dabei gehen Daten an Google, auch in die USA. ' +
+              'Ablehnen hat keine Nachteile.',
             acceptAllBtn: 'Alle akzeptieren',
             acceptNecessaryBtn: 'Alle ablehnen',
-            showPreferencesBtn: 'Einstellungen',
-            footer: link('datenschutz/', 'Datenschutzerklärung') + link('impressum/', 'Impressum')
+            showPreferencesBtn: 'Mehr erfahren',
+            footer: link('cookies/', 'Alle Details') + link('impressum/', 'Impressum')
           },
           preferencesModal: {
-            title: 'Cookie-Einstellungen',
+            title: 'Ihre Auswahl',
             acceptAllBtn: 'Alle akzeptieren',
             acceptNecessaryBtn: 'Alle ablehnen',
             savePreferencesBtn: 'Auswahl speichern',
             closeIconLabel: 'Schließen ohne Speichern',
-            serviceCounterLabel: 'Dienst|Dienste',
             sections: [
               {
-                description:
-                  'Hier legen Sie fest, was wir verwenden dürfen. Statistik und Marketing sind ' +
-                  'ausgeschaltet, bis Sie sie einschalten. „Alle akzeptieren“ schaltet beides ein, ' +
-                  '„Alle ablehnen“ beides aus.'
+                description: 'Später jederzeit änderbar: unten auf jeder Seite unter „Cookie-Einstellungen“.'
               },
               {
                 title: 'Notwendig',
-                description:
-                  'Speichert nur Ihre Auswahl in diesem Fenster, damit wir Sie nicht bei jedem ' +
-                  'Seitenaufruf erneut fragen. Kein Tracking.',
-                linkedCategory: 'necessary',
-                cookieTable: {
-                  headers: { name: 'Cookie', anbieter: 'Anbieter', zweck: 'Zweck', dauer: 'Speicherdauer' },
-                  body: [
-                    { name: 'cc_cookie', anbieter: 'AlltagsHilfe Service', zweck: 'Ihre Auswahl im Cookie-Banner', dauer: '6 Monate' }
-                  ]
-                }
+                description: 'Merkt sich nur Ihre Auswahl (6 Monate).',
+                linkedCategory: 'necessary'
               },
               {
-                title: 'Statistik',
-                description:
-                  'Google Analytics 4 über den Google Tag Manager. Anbieter: Google Ireland Limited, ' +
-                  'Gordon House, Barrow Street, Dublin 4, Irland. Zweck: Wir sehen zusammengefasst, ' +
-                  'welche Seiten besucht werden und ob Anfragen über die Website gesendet werden – ' +
-                  'ohne Formularinhalte. Eine Übermittlung an Google LLC in den USA ist möglich ' +
-                  '(EU-US Data Privacy Framework).',
-                linkedCategory: 'statistik',
-                cookieTable: {
-                  headers: { name: 'Cookie', anbieter: 'Anbieter', zweck: 'Zweck', dauer: 'Speicherdauer' },
-                  body: [
-                    { name: '_ga', anbieter: 'Google', zweck: 'unterscheidet Besuche', dauer: '2 Jahre' },
-                    { name: '_ga_…', anbieter: 'Google', zweck: 'speichert den Sitzungsstand', dauer: '2 Jahre' }
-                  ]
-                }
+                title: 'Statistik – Google Analytics',
+                description: 'Zeigt uns zusammengefasst, welche Seiten gelesen werden und ob Anfragen ankommen. Ohne Formularinhalte.',
+                linkedCategory: 'statistik'
               },
               {
-                title: 'Marketing',
-                description:
-                  'Conversion-Messung von Google Ads über den Google Tag Manager. Anbieter: Google ' +
-                  'Ireland Limited (siehe oben). Zweck: Wir messen, ob eine Anfrage oder ein Klick auf ' +
-                  'Telefon, WhatsApp oder E-Mail auf eine unserer Anzeigen zurückgeht. Keine ' +
-                  'personalisierte Werbung. Eine Übermittlung an Google LLC in den USA ist möglich ' +
-                  '(EU-US Data Privacy Framework).',
-                linkedCategory: 'marketing',
-                cookieTable: {
-                  headers: { name: 'Cookie', anbieter: 'Anbieter', zweck: 'Zweck', dauer: 'Speicherdauer' },
-                  body: [
-                    { name: '_gcl_au', anbieter: 'Google', zweck: 'ordnet Anfragen Anzeigen zu', dauer: '90 Tage' },
-                    { name: '_gcl_aw', anbieter: 'Google', zweck: 'speichert den Anzeigen-Klick', dauer: '90 Tage' }
-                  ]
-                }
+                title: 'Marketing – Google Ads',
+                description: 'Zeigt uns, ob eine Anfrage über unsere Anzeige kam. Keine personalisierte Werbung.',
+                linkedCategory: 'marketing'
               },
               {
-                title: 'Mehr Informationen',
-                description:
-                  'Einzelheiten, Ihre Rechte und den Widerruf finden Sie in unserer ' +
-                  link('datenschutz/', 'Datenschutzerklärung') + '.'
+                description: link('cookies/', 'Alle Details: Anbieter, Cookies, Speicherdauer, USA-Übermittlung')
               }
             ]
           }

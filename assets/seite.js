@@ -660,30 +660,10 @@ document.querySelectorAll('.ajax-form').forEach(form => {
 
 (function(){
 
-  /* --- Hier laesst sich die Aktion steuern, ohne Programmierkenntnisse ---
-     SAISON_AN         : false schaltet das Fenster komplett ab
-     SAISON_START_MONAT: ab welchem Monat es erscheint (8 = August)
-     SAISON_ENDE_MONAT : bis einschliesslich welchem Monat (2 = Februar)
-     VERZOEGERUNG_MS   : wie lange nach dem Oeffnen der Seite (300 = knapp sofort) */
-  const SAISON_AN          = true;
-  const SAISON_START_MONAT = 8;
-  const SAISON_ENDE_MONAT  = 2;
-  const VERZOEGERUNG_MS    = 300;
-
   const popup = document.getElementById('saisonPopup');
   if(!popup) return;
 
   const form = popup.querySelector('.season-form');
-  function inSaison(){
-    const monat = new Date().getMonth() + 1;
-
-    if(SAISON_START_MONAT <= SAISON_ENDE_MONAT){
-      return monat >= SAISON_START_MONAT && monat <= SAISON_ENDE_MONAT;
-    }
-
-    return monat >= SAISON_START_MONAT || monat <= SAISON_ENDE_MONAT;
-  }
-
   function istGeoeffnet(){
     return popup.classList.contains('show');
   }
@@ -693,7 +673,6 @@ document.querySelectorAll('.ajax-form').forEach(form => {
 
     popup.classList.add('show');
     document.body.style.overflow = 'hidden';
-    if(quelle === 'Automatisch') merken();
 
     const erstesFeld = form ? form.querySelector('input[name="E-Mail"]') : null;
     if(erstesFeld && window.innerWidth > 900) erstesFeld.focus();
@@ -757,41 +736,12 @@ document.querySelectorAll('.ajax-form').forEach(form => {
        Bestaetigung frei liegt. Bei Fehlern bleibt das Fenster offen und
        die Angaben bleiben erhalten. */
     form.addEventListener('anfrage:gesendet', function(){
-      merken();
       schliessen('');
     });
   }
 
-  /* Einmal pro Besuch: Wer sich durch die Seiten klickt, soll das Fenster
-     nicht bei jedem Wechsel erneut sehen. Gemerkt wird das nur im
-     Sitzungsspeicher des Browsers - beim naechsten Besuch erscheint es wieder. */
-  const GESEHEN = 'saison_popup_gesehen';
-
-  function schonGesehen(){
-    try{ return !!sessionStorage.getItem(GESEHEN); }catch(e){ return false; }
-  }
-
-  function merken(){
-    try{ sessionStorage.setItem(GESEHEN, 'ja'); }catch(e){ /* privater Modus */ }
-  }
-
-  if(!SAISON_AN) return;
-  if(!inSaison()) return;
-  if(schonGesehen()) return;
-
-  window.setTimeout(function(){
-    const aktiv = document.activeElement;
-    const tippt = aktiv && ['INPUT','TEXTAREA','SELECT'].indexOf(aktiv.tagName) !== -1;
-
-    /* Niemand wird beim Ausfuellen des Kontaktformulars unterbrochen,
-       und die Erfolgsmeldung wird nicht ueberdeckt. */
-    if(tippt) return;
-
-    const erfolgsPopup = document.getElementById('formPopup');
-    if(erfolgsPopup && erfolgsPopup.classList.contains('show')) return;
-
-    oeffnen('Automatisch');
-  }, VERZOEGERUNG_MS);
-
+  /* Das Fenster oeffnet sich nur per Klick auf „Angebot anfordern“ im
+     Saison-Banner. Kein automatisches Oeffnen und kein Browser-Speicher,
+     damit es nicht mit dem Cookie-Banner kollidiert. */
 })();
 
