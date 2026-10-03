@@ -266,8 +266,8 @@ if(popupClose){
 ========================= */
 
 const FORM_TIMEOUT_MS = 15000;
-const FORM_IFRAME_TIMEOUT_MS = 20000;
-const FORM_CLIENT_VERSION = 'web-2026-10-01';
+const FORM_IFRAME_TIMEOUT_MS = 30000;
+const FORM_CLIENT_VERSION = 'web-2026-10-03';
 
 /* Zweiter Antwortweg: Kommt die Antwort auf dem normalen Weg nicht an
    (z. B. 404 bei script.googleusercontent.com/macros/echo), wird dieselbe
@@ -276,6 +276,11 @@ const FORM_CLIENT_VERSION = 'web-2026-10-01';
    Setzt Backend V2 voraus: nur V2 erkennt die gleiche request_id und
    speichert sie nicht doppelt. */
 const FORM_IFRAME_FALLBACK = true;
+
+/* Der Rahmen-Weg ist der, der zuverlaessig antwortet. Deshalb wird er
+   zuerst genommen; der normale Weg bleibt als Rueckfall. Spart einen
+   kompletten zweiten Durchlauf im Backend. */
+const FORM_IFRAME_ZUERST = true;
 
 /* Automatische Wiederholung bei "Server ausgelastet" (busy). */
 const FORM_AUTO_RETRY = false;
@@ -538,10 +543,14 @@ document.querySelectorAll('.ajax-form').forEach(form => {
     const body = buildFormBody(form, requestId);
 
     try{
-      let outcome = await postForm(form.action, body);
+      let outcome = FORM_IFRAME_ZUERST
+        ? await postFormViaIframe(form.action, body, requestId)
+        : await postForm(form.action, body);
 
       if(FORM_IFRAME_FALLBACK && needsFallback(outcome)){
-        outcome = await postFormViaIframe(form.action, body, requestId);
+        outcome = FORM_IFRAME_ZUERST
+          ? await postForm(form.action, body)
+          : await postFormViaIframe(form.action, body, requestId);
       }
 
       if(FORM_AUTO_RETRY && isRetryable(outcome)){
