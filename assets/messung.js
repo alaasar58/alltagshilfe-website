@@ -11,7 +11,7 @@
 
   /* Leer = Messung aus (Banner funktioniert trotzdem). Erst nach Freigabe
      eintragen, z. B. 'GTM-ABC1234'. */
-  const GTM_ID = '';
+  const GTM_ID = 'GTM-WPBZ7XX5';
 
   window.dataLayer = window.dataLayer || [];
   function gtag(){ window.dataLayer.push(arguments); }
