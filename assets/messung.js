@@ -75,7 +75,59 @@
     }
   });
 
-  /* Fuer die Ereignisse (naechster Schritt) und fuer Tests */
+  /* ---------- Ereignisse ----------
+     Nur mit erteilter Einwilligung (Statistik oder Marketing), sonst
+     verworfen (keine rueckwirkende Messung). Jedes Ereignis traegt den
+     Einwilligungsstand zum Zeitpunkt des Ereignisses; GTM entscheidet damit,
+     ob GA4 (Statistik) bzw. Google Ads (Marketing) es bekommt.
+     Keine Formularinhalte, keine Telefonnummern oder Links. */
+
+  function seitenGruppe(){
+    const teil = window.location.pathname.split('/').filter(Boolean)[0] || '';
+    if(teil === 'privat' || teil === 'firmen') return teil;
+    if(teil === 'stellen') return 'jobs';
+    return 'start';
+  }
+
+  function melden(name, daten){
+    const s = stand();
+    if(!s.statistik && !s.marketing) return;
+    window.dataLayer.push(Object.assign({
+      event: name,
+      page_group: seitenGruppe(),
+      einwilligung_statistik: s.statistik,
+      einwilligung_marketing: s.marketing
+    }, daten));
+  }
+
+  /* Bestaetigte Anfrage aus dem Formular (seite.js); jede request_id nur
+     einmal je Seite */
+  const gemeldet = new Set();
+  document.addEventListener('anfrage:gesendet', function(event){
+    const d = event.detail || {};
+    if(!d.request_id || d.duplicate || gemeldet.has(d.request_id)) return;
+    gemeldet.add(d.request_id);
+    melden(d.form_variant === 'saison' ? 'season_reminder_signup' : 'generate_lead', {
+      request_id: d.request_id,
+      customer_type: d.form_type === 'firmen' ? 'firmen' : 'privat',
+      form_variant: d.form_variant === 'saison' ? 'saison' : 'anfrage'
+    });
+  });
+
+  /* Klick auf Telefon, WhatsApp oder E-Mail */
+  document.addEventListener('click', function(event){
+    const link = event.target.closest && event.target.closest('a[href]');
+    if(!link) return;
+    const href = link.getAttribute('href');
+    let weg = '';
+    if(/^tel:/i.test(href)) weg = 'telefon';
+    else if(/^mailto:/i.test(href)) weg = 'email';
+    else if(/^https:\/\/(wa\.me|api\.whatsapp\.com)\//i.test(href)) weg = 'whatsapp';
+    if(!weg) return;
+    melden(seitenGruppe() === 'jobs' ? 'job_apply_click' : 'contact_click', { contact_method: weg });
+  }, true);
+
+  /* Fuer Tests */
   window.ahsMessung = {
     stand: stand,
     gtmGeladen: function(){ return gtmGeladen; }
