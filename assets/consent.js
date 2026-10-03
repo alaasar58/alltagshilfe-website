@@ -92,46 +92,45 @@
       default: 'de',
       translations: {
         de: {
-          /* Stufe 1: kurz. Stufe 2: Einstellungen im selben Fenster.
-             Stufe 3: alle Details auf /cookies/ (nur ueber diese Links). */
+          /* Stufe 1: kurz (wie bei grossen Shops ueblich). Stufe 2: Einstellungen
+             im selben Fenster. Stufe 3: Cookie-Richtlinie /cookies/. */
           consentModal: {
-            title: 'Cookies? Nur wenn Sie möchten.',
+            title: 'Cookies',
             description:
-              'Mit Ihrer Zustimmung nutzen wir Google Analytics und Google Ads, um zu sehen, ' +
-              'wie unsere Website ankommt. Dabei gehen Daten an Google, auch in die USA. ' +
-              'Ablehnen hat keine Nachteile.',
+              'Wir und unsere Partner verwenden Cookies, um unsere Website zu verbessern und ' +
+              'die Wirkung unserer Werbung zu messen. Mehr dazu in unserer ' +
+              link('cookies/', 'Cookie-Richtlinie') + '.',
             acceptAllBtn: 'Alle akzeptieren',
             acceptNecessaryBtn: 'Alle ablehnen',
-            showPreferencesBtn: 'Mehr erfahren',
-            footer: link('cookies/', 'Alle Details') + link('impressum/', 'Impressum')
+            showPreferencesBtn: 'Einstellungen'
           },
           preferencesModal: {
-            title: 'Ihre Auswahl',
+            title: 'Cookie-Einstellungen',
             acceptAllBtn: 'Alle akzeptieren',
             acceptNecessaryBtn: 'Alle ablehnen',
             savePreferencesBtn: 'Auswahl speichern',
             closeIconLabel: 'Schließen ohne Speichern',
             sections: [
               {
-                description: 'Später jederzeit änderbar: unten auf jeder Seite unter „Cookie-Einstellungen“.'
+                description: 'Sie können Ihre Auswahl jederzeit unten auf jeder Seite ändern.'
               },
               {
                 title: 'Notwendig',
-                description: 'Merkt sich nur Ihre Auswahl (6 Monate).',
+                description: 'Speichert Ihre Auswahl.',
                 linkedCategory: 'necessary'
               },
               {
                 title: 'Statistik – Google Analytics',
-                description: 'Zeigt uns zusammengefasst, welche Seiten gelesen werden und ob Anfragen ankommen. Ohne Formularinhalte.',
+                description: 'Hilft uns zu verstehen, wie unsere Website genutzt wird.',
                 linkedCategory: 'statistik'
               },
               {
                 title: 'Marketing – Google Ads',
-                description: 'Zeigt uns, ob eine Anfrage über unsere Anzeige kam. Keine personalisierte Werbung.',
+                description: 'Hilft uns, die Wirkung unserer Werbung zu messen.',
                 linkedCategory: 'marketing'
               },
               {
-                description: link('cookies/', 'Alle Details: Anbieter, Cookies, Speicherdauer, USA-Übermittlung')
+                description: 'Mehr dazu in unserer ' + link('cookies/', 'Cookie-Richtlinie') + '.'
               }
             ]
           }
