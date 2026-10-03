@@ -6,7 +6,7 @@ statische Website von service-alltagshilfe.de (GitHub Pages).
 ## Was hierher gehört
 
 - HTML-Seiten: `index.html`, `privat/`, `firmen/`, `stellen/`,
-  `impressum/`, `datenschutz/`
+  `impressum/`, `datenschutz/`, `newsletter/` (Bestätigen/Abmelden)
 - `assets/` (CSS, JavaScript) und `bilder/` (nur Bilder, die eine Seite
   tatsächlich verwendet)
 - `robots.txt`, `sitemap.xml`, `CNAME`, `_config.yml`
