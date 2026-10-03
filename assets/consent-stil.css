@@ -1,0 +1,27 @@
+/* Cookie-Banner an die Website angepasst. Alle Schaltflaechen gleich
+   gestaltet (keine Hervorhebung von „Alle akzeptieren“). */
+#cc-main{
+  --cc-font-family: inherit;
+  --cc-bg: #ffffff;
+  --cc-primary-color: #1f2a22;
+  --cc-secondary-color: #46524a;
+  --cc-btn-primary-bg: #0e4e2d;
+  --cc-btn-primary-color: #ffffff;
+  --cc-btn-primary-border-color: #0e4e2d;
+  --cc-btn-primary-hover-bg: #0a3b22;
+  --cc-btn-primary-hover-color: #ffffff;
+  --cc-btn-primary-hover-border-color: #0a3b22;
+  --cc-btn-secondary-bg: #0e4e2d;
+  --cc-btn-secondary-color: #ffffff;
+  --cc-btn-secondary-border-color: #0e4e2d;
+  --cc-btn-secondary-hover-bg: #0a3b22;
+  --cc-btn-secondary-hover-color: #ffffff;
+  --cc-btn-secondary-hover-border-color: #0a3b22;
+  --cc-toggle-on-bg: #0e4e2d;
+  --cc-toggle-readonly-bg: #9fb5a6;
+  --cc-link-color: #0e4e2d;
+  --cc-modal-border-radius: 14px;
+  --cc-btn-border-radius: 999px;
+}
+#cc-main .cm__btn, #cc-main .pm__btn{ font-weight: 700; }
+.cookie-einstellungen{ cursor: pointer; }
