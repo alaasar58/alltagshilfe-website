@@ -19,7 +19,7 @@ jobs:
 
       - name: Nur erlaubte Dateien
         run: |
-          erlaubt='^(index\.html|robots\.txt|sitemap\.xml|CNAME|_config\.yml|\.gitignore|CLAUDE\.md|(privat|firmen|stellen|impressum|datenschutz|newsletter|cookies|instagram|whatsapp)(/[a-z0-9-]+)*/index\.html|assets/[a-z0-9-]+\.(css|js)|bilder/[A-Za-z0-9_-]+\.(webp|png|jpg|jpeg|svg|ico)|\.github/workflows/[a-z0-9-]+\.yml)$'
+          erlaubt='^(index\.html|robots\.txt|sitemap\.xml|CNAME|_config\.yml|\.gitignore|CLAUDE\.md|(privat|firmen|stellen|impressum|datenschutz|newsletter|cookies|instagram|whatsapp|kleinanzeigen)(/[a-z0-9-]+)*/index\.html|assets/[a-z0-9-]+\.(css|js)|bilder/[A-Za-z0-9_-]+\.(webp|png|jpg|jpeg|svg|ico)|\.github/workflows/[a-z0-9-]+\.yml)$'
           fehler=0
           while IFS= read -r datei; do
             if ! printf '%s\n' "$datei" | grep -qE "$erlaubt"; then
