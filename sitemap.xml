@@ -64,4 +64,8 @@
     <loc>https://service-alltagshilfe.de/firmen/faq/</loc>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://service-alltagshilfe.de/partner/</loc>
+    <priority>0.5</priority>
+  </url>
 </urlset>

@@ -313,7 +313,8 @@ function createRequestId(){
 
 function getFormType(form){
   const field = form.querySelector('input[name="form_type"]');
-  return field && field.value === 'firmen' ? 'firmen' : 'privat';
+  if(field && (field.value === 'firmen' || field.value === 'partner')) return field.value;
+  return 'privat';
 }
 
 function getFormVariant(form){
