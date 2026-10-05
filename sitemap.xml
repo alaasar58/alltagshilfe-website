@@ -56,4 +56,12 @@
     <loc>https://service-alltagshilfe.de/firmen/unterstuetzung/</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://service-alltagshilfe.de/privat/faq/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://service-alltagshilfe.de/firmen/faq/</loc>
+    <priority>0.6</priority>
+  </url>
 </urlset>

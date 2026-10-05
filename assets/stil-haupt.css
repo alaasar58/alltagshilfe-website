@@ -495,3 +495,8 @@ details.lblock{
 @media (prefers-reduced-motion:reduce){
   .reveal{opacity:1;transform:none;transition:none}
 }
+
+/* FAQ-Seiten */
+.seiten-kopf-schmal{grid-template-columns:1fr}
+.faq-mehr{margin-top:20px}
+.faq-mehr .secondary-link{display:inline-block;text-decoration:none;font-weight:900;border-radius:999px;padding:13px 18px}
