@@ -23,10 +23,10 @@ const revealItems = document.querySelectorAll('.reveal');
 if(revealItems.length){
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
+      /* Nur einmal einblenden, danach stehen lassen */
       if(entry.isIntersecting){
         entry.target.classList.add('show');
-      }else{
-        entry.target.classList.remove('show');
+        revealObserver.unobserve(entry.target);
       }
     });
   }, { threshold: .12 });

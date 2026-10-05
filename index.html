@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alltagshilfe und Reinigung in Bargteheide | AlltagsHilfe Service</title>
-<meta name="description" content="AlltagsHilfe Service aus Bargteheide: Alltagsbegleitung, Reinigung, Gartenpflege, Winterdienst, Transport und Entrümpelung – für Privathaushalte und Firmen in Bargteheide, Ahrensburg und Umgebung.">
+<meta name="description" content="Alltagshilfe, Reinigung, Gartenpflege, Winterdienst und Entrümpelung für Privathaushalte und Firmen in Bargteheide, Ahrensburg und Umgebung.">
 <link rel="icon" type="image/png" href="bilder/favicon.png">
 <link rel="apple-touch-icon" href="bilder/apple-touch-icon.png">
 <link rel="canonical" href="https://service-alltagshilfe.de/">
@@ -12,7 +12,7 @@
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="AlltagsHilfe Service">
 <meta property="og:title" content="Alltagshilfe und Reinigung in Bargteheide | AlltagsHilfe Service">
-<meta property="og:description" content="AlltagsHilfe Service aus Bargteheide: Alltagsbegleitung, Reinigung, Gartenpflege, Winterdienst, Transport und Entrümpelung – für Privathaushalte und Firmen in Bargteheide, Ahrensburg und Umgebung.">
+<meta property="og:description" content="Alltagshilfe, Reinigung, Gartenpflege, Winterdienst und Entrümpelung für Privathaushalte und Firmen in Bargteheide, Ahrensburg und Umgebung.">
 <meta property="og:url" content="https://service-alltagshilfe.de/">
 <meta property="og:image" content="https://service-alltagshilfe.de/bilder/hintergrundbild.webp">
 <meta name="twitter:card" content="summary_large_image">
@@ -458,6 +458,17 @@
   }
 }
 
+
+/* Niedrige Bildschirme (Laptop, Zoom): Seite scrollt, statt oben/unten
+   abgeschnitten zu werden; Impressum und Datenschutz bleiben erreichbar */
+html, body{height:auto;min-height:100%}
+body{overflow-x:hidden;overflow-y:auto;background-attachment:fixed}
+main{height:auto;min-height:calc(100vh - 46px)}
+
+/* Kurze Leistungsliste unter den Karten */
+.leistungen-kurz{margin-top:20px;font-size:14px;line-height:1.9;color:rgba(255,255,255,.88);text-shadow:0 2px 8px rgba(0,0,0,.45)}
+.leistungen-kurz a{color:#fefefd;font-weight:700;text-decoration:none;white-space:nowrap}
+.leistungen-kurz a:hover{text-decoration:underline}
 </style>
 <link rel="stylesheet" href="assets/cookieconsent-3-1-0.css">
 <link rel="stylesheet" href="assets/consent-stil.css">
@@ -490,6 +501,14 @@ Alltagshilfe, Reinigung, Gartenpflege, Winterdienst und Transport in Bargteheide
         <span class="btn">Zum Firmenbereich</span>
       </a>
     </div>
+
+    <nav class="leistungen-kurz" aria-label="Leistungen">
+      <a href="privat/alltagshilfe/">Alltagshilfe &amp; Begleitung</a> ·
+      <a href="privat/reinigung/">Reinigung</a> ·
+      <a href="privat/aussenpflege/">Gartenpflege &amp; Winterdienst</a> ·
+      <a href="privat/transport-raeumung/">Transport &amp; Entrümpelung</a> ·
+      <a href="firmen/reinigung/">Büro- und Treppenhausreinigung</a>
+    </nav>
   </div>
 </main>
 

@@ -21,8 +21,8 @@ a,button,summary{cursor:pointer}
 .nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .nav a,.dropbtn{height:42px;display:inline-flex;align-items:center;justify-content:center; color:#0e4e2d;text-decoration:none;font-weight:800;padding:0 14px; border-radius:999px;background:transparent;border:0;font-size:14px;line-height:1;font-family:inherit;transition:.2s ease}
 .nav a:hover,.dropdown:hover .dropbtn{background:#eef4ec}
-.home-btn{background:#0e4e2d!important;color:#fefefd!important}
-.home-btn:hover{background:#08391f!important}
+.nav .home-btn{font-weight:700;color:#3d5247}
+.nav [aria-current="page"]{background:#eef4ec}
 .dropdown{position:relative}
 .dropdown-content{display:none;position:absolute;top:48px;left:0;background:#fefefd; border:1px solid rgba(14,78,45,.14);border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.12);min-width:245px;padding:8px}
 .dropdown-content a{width:100%;justify-content:flex-start;border-radius:12px;white-space:nowrap}
@@ -459,3 +459,39 @@ details.lblock{
    bei vielen Fragen lesbar bleibt. Keine neue Komponente. */
 .faq-gruppe{margin:26px 0 10px}
 .faq-gruppe:first-of-type{margin-top:18px}
+
+/* ---------- Feinschliff 10/2026 ---------- */
+/* Ein farbiger Knopf im Menue = das Ziel der Seite */
+.nav .nav-cta{background:#0e4e2d;color:#fefefd;margin-left:6px}
+.nav .nav-cta:hover{background:#08391f}
+.dropbtn[data-aktiv]{background:#eef4ec}
+.nav .dropdown-content [aria-current="page"]{background:#dfe9dc}
+
+/* Kurze Vertrauenszeilen unter den Hero-Knoepfen */
+.vertrauen{list-style:none;padding:0;margin:22px 0 0;display:flex;flex-wrap:wrap;gap:8px 22px;max-width:590px}
+.vertrauen li{font-size:15px;font-weight:700;color:#0e4e2d}
+.vertrauen li::before{content:"✓";margin-right:7px;color:#5b8a3a}
+
+/* Kontaktspalte: Karten so hoch wie ihr Inhalt */
+.contact-layout{align-items:start}
+.side-contact{align-content:start}
+.contact-card-doppelt .contact-wege{display:flex;gap:8px;margin-top:12px}
+.contact-card-doppelt .contact-wege a{flex:1;text-align:center;padding:9px 12px;border-radius:999px;font-weight:800;font-size:14px;text-decoration:none;background:#0e4e2d;color:#fefefd}
+.contact-card-doppelt .contact-wege a+a{background:#eef4ec;color:#0e4e2d;border:1px solid rgba(14,78,45,.18)}
+.contact-card-doppelt:hover{transform:none;box-shadow:none}
+
+/* Handy: Anrufen / WhatsApp immer erreichbar; QR-Code nur am Computer */
+.handy-leiste{display:none}
+@media (max-width:760px){
+  .qr-box{display:none}
+  .handy-leiste{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:90;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(254,254,253,.97);border-top:1px solid rgba(14,78,45,.14);box-shadow:0 -6px 18px rgba(14,78,45,.08)}
+  .handy-leiste a{flex:1;text-align:center;padding:13px 0;border-radius:999px;font-weight:800;text-decoration:none;background:#0e4e2d;color:#fefefd}
+  .handy-leiste a+a{background:#eef4ec;color:#0e4e2d;border:1px solid rgba(14,78,45,.18)}
+  body:has(.handy-leiste){padding-bottom:76px}
+  .nav .nav-cta{margin-left:0}
+}
+
+/* Weniger Bewegung, wenn im System so eingestellt */
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+}

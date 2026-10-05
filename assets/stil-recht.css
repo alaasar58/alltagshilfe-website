@@ -16,8 +16,8 @@ a,button{cursor:pointer}
 .nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .nav a{height:42px;display:inline-flex;align-items:center;justify-content:center; color:#0e4e2d;text-decoration:none;font-weight:800;padding:0 14px; border-radius:999px;background:transparent;border:0;font-size:14px;line-height:1;font-family:inherit;transition:.2s ease}
 .nav a:hover{background:#eef4ec}
-.home-btn{background:#0e4e2d!important;color:#fefefd!important}
-.home-btn:hover{background:#08391f!important}
+.nav .home-btn{font-weight:700;color:#3d5247}
+.nav [aria-current="page"]{background:#eef4ec}
 .wrap{max-width:1120px;margin:auto;padding:34px 24px 0}
 .kicker{color:#548031;font-weight:900;text-transform:uppercase;font-size:13px;letter-spacing:.6px;margin-bottom:10px}
 h1,h2,h3{color:#0e4e2d}
