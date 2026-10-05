@@ -507,12 +507,20 @@ section.karte-bereich{padding:36px 36px 40px}
 .karte-bereich h2{margin-top:0}
 .karte-bereich{background:linear-gradient(135deg,#f6f3ee 0%,#eef4ec 100%);border:1px solid rgba(14,78,45,.10);border-radius:30px;padding:40px 36px}
 .karte-bereich .lead{max-width:680px}
-.karte-ansicht{margin:26px auto 0;max-width:880px}
-.karte-ansicht img,.karte-platzhalter{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:22px;background:#fefefd;box-shadow:0 22px 48px rgba(14,78,45,.14)}
-.karte-platzhalter{border:2px dashed rgba(14,78,45,.25);box-shadow:none;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#0e4e2d;font-weight:800;font-size:20px}
-.karte-platzhalter small{font-weight:600;font-size:14px;color:#56645d;margin-top:6px}
+.karte-layout{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center}
+.karte-ansicht{margin:0}
+/* Kartenhuelle: Breite einer Bankkarte (85,6 mm), Hoehe zwei Karten (2 x 54 mm) */
+.kartenhuelle,.karte-ansicht img{width:260px;aspect-ratio:85.6/108;border-radius:14px;background:#fefefd;box-shadow:0 24px 50px rgba(14,78,45,.18),0 2px 6px rgba(14,78,45,.08);transform:rotate(-3deg)}
+.kartenhuelle{display:flex;flex-direction:column;padding:10px;gap:10px;border:1px solid rgba(14,78,45,.10)}
+.huelle-partner{flex:1;border:2px dashed rgba(14,78,45,.22);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#0e4e2d;font-weight:800;font-size:15px}
+.huelle-partner small{font-weight:600;font-size:12px;color:#56645d;margin-top:3px}
+.huelle-karte{flex:1;border-radius:10px;background:linear-gradient(135deg,#0e4e2d 0%,#1d6b43 100%);display:flex;align-items:center;gap:10px;padding:0 14px;color:#fefefd;font-weight:800;font-size:14px}
+.huelle-karte img{width:40px;height:40px;flex-shrink:0;object-fit:contain;border-radius:50%;background:#fefefd;padding:2px}
 @media (max-width:760px){
   section.karte-bereich{padding:26px 18px;border-radius:24px}
+  .karte-layout{grid-template-columns:1fr;gap:26px}
+  .karte-ansicht{justify-self:center}
+  .kartenhuelle,.karte-ansicht img{width:220px}
 }
 .haken-liste{list-style:none;padding:0;margin:0}
 .haken-liste li{position:relative;padding-left:24px;margin:8px 0;color:#3d4a43}

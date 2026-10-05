@@ -80,14 +80,26 @@
 </section>
 
 <section class="reveal karte-bereich" id="karte">
-  <h2>Die Partnerkarte</h2>
-  <p class="lead">Unser Logo und Ihr Name – auf einer Karte für Ihre Kundschaft.</p>
+  <div class="karte-layout">
+    <div class="karte-text">
+      <h2>Die Partnerkarte</h2>
+      <p class="lead">Unser Logo und Ihr Name – auf einer Karte für Ihre Kundschaft.</p>
+    </div>
 
-  <figure class="karte-ansicht">
-    <!-- Bild des Kartendesigns: <img src="../bilder/partnerkarte.webp" alt="Partnerkarte von AlltagsHilfe Service mit Partnerlogo">
-         einsetzen und den Platzhalter entfernen. -->
-    <div class="karte-platzhalter"><span>Kartendesign</span><small>Abbildung folgt</small></div>
-  </figure>
+    <figure class="karte-ansicht">
+      <!-- Vorschau der Kartenhuelle (Bankkartenbreite, doppelte Bankkartenhoehe):
+           oben Partner, unten unsere Karte. Sobald das echte Design da ist:
+           <img src="../bilder/partnerkarte.webp" alt="Partnerkarte von AlltagsHilfe Service mit Partnerlogo" width="856" height="1080">
+           statt des Blocks .kartenhuelle einsetzen. -->
+      <div class="kartenhuelle" role="img" aria-label="Vorschau der Partnerkarte: oben das Logo des Partners, unten die Karte von AlltagsHilfe Service">
+        <div class="huelle-partner"><span>Ihr Logo</span><small>Ihr Name</small></div>
+        <div class="huelle-karte">
+          <img src="../bilder/Logo.webp" alt="" width="64" height="64">
+          <span>AlltagsHilfe Service</span>
+        </div>
+      </div>
+    </figure>
+  </div>
 </section>
 
 <section class="reveal" id="ablauf">
