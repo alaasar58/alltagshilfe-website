@@ -86,6 +86,7 @@
     const teil = window.location.pathname.split('/').filter(Boolean)[0] || '';
     if(teil === 'privat' || teil === 'firmen') return teil;
     if(teil === 'stellen') return 'jobs';
+    if(teil === 'partner') return 'partner';
     return 'start';
   }
 
@@ -101,12 +102,17 @@
   }
 
   /* Bestaetigte Anfrage aus dem Formular (seite.js); jede request_id nur
-     einmal je Seite */
+     einmal je Seite. Partner-Anfragen (Karten fuer die eigene Kundschaft)
+     sind kein Kunden-Lead und haben ein eigenes Ereignis. */
   const gemeldet = new Set();
   document.addEventListener('anfrage:gesendet', function(event){
     const d = event.detail || {};
     if(!d.request_id || d.duplicate || gemeldet.has(d.request_id)) return;
     gemeldet.add(d.request_id);
+    if(d.form_type === 'partner'){
+      melden('partner_request', { request_id: d.request_id, customer_type: 'partner', form_variant: 'partner' });
+      return;
+    }
     melden(d.form_variant === 'saison' ? 'season_reminder_signup' : 'generate_lead', {
       request_id: d.request_id,
       customer_type: d.form_type === 'firmen' ? 'firmen' : 'privat',

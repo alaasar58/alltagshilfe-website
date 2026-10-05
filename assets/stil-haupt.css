@@ -500,3 +500,8 @@ details.lblock{
 .seiten-kopf-schmal{grid-template-columns:1fr}
 .faq-mehr{margin-top:20px}
 .faq-mehr .secondary-link{display:inline-block;text-decoration:none;font-weight:900;border-radius:999px;padding:13px 18px}
+
+/* Partner-Seite: Formular ohne Kontaktspalte */
+.contact-layout-einzeln{grid-template-columns:1fr;max-width:820px}
+.process.process-drei{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){.process.process-drei{grid-template-columns:1fr}}
