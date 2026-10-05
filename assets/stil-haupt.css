@@ -507,17 +507,12 @@ section.karte-bereich{padding:36px 36px 40px}
 .karte-bereich h2{margin-top:0}
 .karte-bereich{background:linear-gradient(135deg,#f6f3ee 0%,#eef4ec 100%);border:1px solid rgba(14,78,45,.10);border-radius:30px;padding:40px 36px}
 .karte-bereich .lead{max-width:680px}
-.karte-galerie{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:26px}
-.karte-ansicht{margin:0}
-.karte-ansicht img,.karte-platzhalter{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:22px;background:#fefefd;box-shadow:0 22px 48px rgba(14,78,45,.14)}
+.karte-ansicht{margin:26px auto 0;max-width:880px}
+.karte-ansicht img,.karte-platzhalter{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:22px;background:#fefefd;box-shadow:0 22px 48px rgba(14,78,45,.14)}
 .karte-platzhalter{border:2px dashed rgba(14,78,45,.25);box-shadow:none;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#0e4e2d;font-weight:800;font-size:20px}
 .karte-platzhalter small{font-weight:600;font-size:14px;color:#56645d;margin-top:6px}
-.karte-ansicht figcaption{margin-top:14px;color:#3d4a43;font-size:15px;line-height:1.55}
-.karte-ansicht figcaption strong{display:block;color:#0e4e2d;font-size:16px;margin-bottom:2px}
-.karte-hinweis{margin:28px 0 0;text-align:center;font-weight:700;color:#0e4e2d}
 @media (max-width:760px){
   section.karte-bereich{padding:26px 18px;border-radius:24px}
-  .karte-galerie{grid-template-columns:1fr;gap:26px}
 }
 .haken-liste{list-style:none;padding:0;margin:0}
 .haken-liste li{position:relative;padding-left:24px;margin:8px 0;color:#3d4a43}
