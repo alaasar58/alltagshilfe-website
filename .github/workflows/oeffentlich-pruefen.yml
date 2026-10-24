@@ -29,6 +29,10 @@ jobs:
           done < <(git ls-files)
           exit $fehler
 
+      - name: JavaScript-Syntax prüfen
+        run: |
+          for js in assets/*.js; do node --check "$js"; done
+
       - name: Keine internen Inhalte
         run: |
           muster='iam\.gserviceaccount\.com|docs\.google\.com/spreadsheets|spreadsheets/d/|BEGIN [A-Z ]*PRIVATE KEY|"private_key"|_docs/|_backend/|_tests/|google-apps-script/|@(gmail|googlemail|web|gmx|yahoo|outlook|hotmail|icloud|t-online)\.'
