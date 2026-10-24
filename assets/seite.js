@@ -274,6 +274,25 @@ const FORM_CLIENT_VERSION = 'web-2026-10-24-turnstile';
    des Google-Apps-Script-Backends, niemals hierher. Leer = unveraendert. */
 const FORM_TURNSTILE_SITE_KEY = '0x4AAAAAAFk0OmkyXSB0jyfq';
 const FORM_TURNSTILE_WIDGETS = new WeakMap();
+const FORM_COOLDOWN_MS = 30000;
+const FORM_COOLDOWN_KEY = 'alltagshilfe-formular-letzter-erfolg';
+
+/* Nur eine freundliche Begrenzung je Browser-Tab. Richtige Rate Limits
+   muessen spaeter zwingend im Backend/Worker passieren. */
+function letzterFormErfolg(){
+  try { return Number(sessionStorage.getItem(FORM_COOLDOWN_KEY) || 0); }
+  catch (error) { return 0; }
+}
+function letztenFormErfolgMerken(){
+  try { sessionStorage.setItem(FORM_COOLDOWN_KEY, String(Date.now())); }
+  catch (error) { /* Formulardienst funktioniert weiterhin. */ }
+}
+function istTypischerKurzSpam(form){
+  if(getFormVariant(form) === 'saison') return false;
+  const field = form.querySelector('textarea[name="Nachricht"], input[name="Nachricht"]');
+  if(!field) return false;
+  return /^(?:ok(?:ay)?|test(?:ing)?|hi|hello|\.\.{0,2}|-+)\s*[.!?]*$/i.test(field.value.trim());
+}
 
 /* Zweiter Antwortweg: Kommt die Antwort auf dem normalen Weg nicht an
    (z. B. 404 bei script.googleusercontent.com/macros/echo), wird dieselbe
@@ -574,6 +593,24 @@ document.querySelectorAll('.ajax-form').forEach(form => {
       return;
     }
 
+    /* Offensichtliche Ein-Wort-Spamnachrichten nicht absenden.
+       Laengere echte Kundentexte werden bewusst NICHT heuristisch blockiert. */
+    if(istTypischerKurzSpam(form)){
+      const nachricht = form.querySelector('[name="Nachricht"]');
+      if(nachricht) setFieldError(nachricht, 'Bitte beschreiben Sie kurz Ihr Anliegen.');
+      showPopup(false, 'Bitte Nachricht ergänzen',
+        'Bitte beschreiben Sie kurz, wobei wir Sie unterstützen dürfen.');
+      return;
+    }
+
+    /* Versehendliches und einfach automatisiertes mehrfaches Senden im
+       selben Tab verhindern; Datenspeicherung bleibt vollständig serverseitig. */
+    if(Date.now() - letzterFormErfolg() < FORM_COOLDOWN_MS){
+      showPopup(false, 'Anfrage bereits gesendet',
+        'Ihre vorherige Anfrage wurde gerade übermittelt. Bitte warten Sie einen kurzen Moment, bevor Sie eine weitere Anfrage senden.');
+      return;
+    }
+
     /* Ohne gueltigen Turnstile-Token wird nichts an den Server geschickt. */
     let turnstileToken = '';
     if(FORM_TURNSTILE_SITE_KEY){
@@ -620,6 +657,7 @@ document.querySelectorAll('.ajax-form').forEach(form => {
       }
 
       if(outcome.kind === 'ok'){
+        letztenFormErfolgMerken();
         delete form.dataset.requestId;
         resetFormAfterSuccess(form);
       }
