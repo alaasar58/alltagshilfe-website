@@ -267,7 +267,32 @@ if(popupClose){
 
 const FORM_TIMEOUT_MS = 15000;
 const FORM_IFRAME_TIMEOUT_MS = 30000;
-const FORM_CLIENT_VERSION = 'web-2026-10-03';
+const FORM_CLIENT_VERSION = 'web-2026-10-24-turnstile';
+
+/* Oeffentlicher Site Key – erst nach Backend-Test und Cloudflare-Einrichtung
+   eintragen. Der SECRET KEY gehoert ausschliesslich in die Script Properties
+   des Google-Apps-Script-Backends, niemals hierher. Leer = unveraendert. */
+const FORM_TURNSTILE_SITE_KEY = '0x4AAAAAAFk0OmkyXSB0jyfq';
+const FORM_TURNSTILE_WIDGETS = new WeakMap();
+const FORM_COOLDOWN_MS = 30000;
+const FORM_COOLDOWN_KEY = 'alltagshilfe-formular-letzter-erfolg';
+
+/* Nur eine freundliche Begrenzung je Browser-Tab. Richtige Rate Limits
+   muessen spaeter zwingend im Backend/Worker passieren. */
+function letzterFormErfolg(){
+  try { return Number(sessionStorage.getItem(FORM_COOLDOWN_KEY) || 0); }
+  catch (error) { return 0; }
+}
+function letztenFormErfolgMerken(){
+  try { sessionStorage.setItem(FORM_COOLDOWN_KEY, String(Date.now())); }
+  catch (error) { /* Formulardienst funktioniert weiterhin. */ }
+}
+function istTypischerKurzSpam(form){
+  if(getFormVariant(form) === 'saison') return false;
+  const field = form.querySelector('textarea[name="Nachricht"], input[name="Nachricht"]');
+  if(!field) return false;
+  return /^(?:ok(?:ay)?|test(?:ing)?|hi|hello|\.\.{0,2}|-+)\s*[.!?]*$/i.test(field.value.trim());
+}
 
 /* Zweiter Antwortweg: Kommt die Antwort auf dem normalen Weg nicht an
    (z. B. 404 bei script.googleusercontent.com/macros/echo), wird dieselbe
@@ -289,6 +314,43 @@ const FORM_RETRY_DELAY_MS = 1500;
 /* Herkunft der postMessage-Antwort: Apps Script liefert HTML aus einer
    Sandbox unter *.googleusercontent.com aus. */
 const FORM_ANTWORT_URSPRUNG = /^https:\/\/([a-z0-9-]+\.)*(googleusercontent\.com|script\.google\.com)$/;
+
+/* Turnstile wird erst geladen, wenn ein Site Key konfiguriert ist.
+   Alle Anfrageformulare der Seite bekommen ihr eigenes Widget. */
+function turnstileEinrichten(){
+  if(!FORM_TURNSTILE_SITE_KEY) return;
+
+  const script = document.createElement('script');
+  script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  script.async = true;
+  script.defer = true;
+  script.onload = () => {
+    if(!window.turnstile) return;
+
+    document.querySelectorAll('.ajax-form').forEach(form => {
+      const button = form.querySelector('.submit-btn');
+      if(!button) return;
+
+      const container = document.createElement('div');
+      container.className = 'form-turnstile';
+      container.style.marginBottom = '16px';
+      button.parentNode.insertBefore(container, button);
+
+      const widgetId = window.turnstile.render(container, {
+        sitekey: FORM_TURNSTILE_SITE_KEY,
+        action: 'kontakt',
+        appearance: 'interaction-only',
+        theme: 'auto',
+        'response-field': true,
+        'response-field-name': 'cf-turnstile-response'
+      });
+      FORM_TURNSTILE_WIDGETS.set(form, widgetId);
+    });
+  };
+  script.onerror = () => console.error('Turnstile konnte nicht geladen werden.');
+  document.head.appendChild(script);
+}
+turnstileEinrichten();
 
 function createRequestId(){
   if(window.crypto && typeof window.crypto.randomUUID === 'function'){
@@ -531,6 +593,41 @@ document.querySelectorAll('.ajax-form').forEach(form => {
       return;
     }
 
+    /* Offensichtliche Ein-Wort-Spamnachrichten nicht absenden.
+       Laengere echte Kundentexte werden bewusst NICHT heuristisch blockiert. */
+    if(istTypischerKurzSpam(form)){
+      const nachricht = form.querySelector('[name="Nachricht"]');
+      if(nachricht) setFieldError(nachricht, 'Bitte beschreiben Sie kurz Ihr Anliegen.');
+      showPopup(false, 'Bitte Nachricht ergänzen',
+        'Bitte beschreiben Sie kurz, wobei wir Sie unterstützen dürfen.');
+      return;
+    }
+
+    /* Versehendliches und einfach automatisiertes mehrfaches Senden im
+       selben Tab verhindern; Datenspeicherung bleibt vollständig serverseitig. */
+    if(Date.now() - letzterFormErfolg() < FORM_COOLDOWN_MS){
+      showPopup(false, 'Anfrage bereits gesendet',
+        'Ihre vorherige Anfrage wurde gerade übermittelt. Bitte warten Sie einen kurzen Moment, bevor Sie eine weitere Anfrage senden.');
+      return;
+    }
+
+    /* Ohne gueltigen Turnstile-Token wird nichts an den Server geschickt. */
+    let turnstileToken = '';
+    if(FORM_TURNSTILE_SITE_KEY){
+      const widgetId = FORM_TURNSTILE_WIDGETS.get(form);
+      if(!window.turnstile || widgetId === undefined){
+        showPopup(false, 'Sicherheitsprüfung nicht verfügbar',
+          'Bitte laden Sie die Seite neu oder kontaktieren Sie uns telefonisch.');
+        return;
+      }
+      turnstileToken = window.turnstile.getResponse(widgetId);
+      if(!turnstileToken){
+        showPopup(false, 'Sicherheitsprüfung erforderlich',
+          'Bitte warten Sie kurz, bis die Sicherheitsprüfung abgeschlossen ist.');
+        return;
+      }
+    }
+
     sending = true;
 
     if(button){
@@ -541,6 +638,7 @@ document.querySelectorAll('.ajax-form').forEach(form => {
     if(!form.dataset.requestId) form.dataset.requestId = createRequestId();
     const requestId = form.dataset.requestId;
     const body = buildFormBody(form, requestId);
+    if(FORM_TURNSTILE_SITE_KEY) body.set('cf-turnstile-response', turnstileToken);
 
     try{
       let outcome = FORM_IFRAME_ZUERST
@@ -559,6 +657,7 @@ document.querySelectorAll('.ajax-form').forEach(form => {
       }
 
       if(outcome.kind === 'ok'){
+        letztenFormErfolgMerken();
         delete form.dataset.requestId;
         resetFormAfterSuccess(form);
       }
@@ -580,6 +679,12 @@ document.querySelectorAll('.ajax-form').forEach(form => {
         }));
       }
     }finally{
+      /* Tokens sind nur einmal gueltig. Fuer den naechsten Versuch
+         braucht jedes Formular einen frischen Token. */
+      if(FORM_TURNSTILE_SITE_KEY && window.turnstile){
+        const widgetId = FORM_TURNSTILE_WIDGETS.get(form);
+        if(widgetId !== undefined) window.turnstile.reset(widgetId);
+      }
       sending = false;
 
       if(button){
