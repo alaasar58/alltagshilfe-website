@@ -272,7 +272,7 @@ const FORM_CLIENT_VERSION = 'web-2026-10-24-turnstile';
 /* Oeffentlicher Site Key – erst nach Backend-Test und Cloudflare-Einrichtung
    eintragen. Der SECRET KEY gehoert ausschliesslich in die Script Properties
    des Google-Apps-Script-Backends, niemals hierher. Leer = unveraendert. */
-const FORM_TURNSTILE_SITE_KEY = '0x4AAAAAAFk0OmkyXSB0jyfq';
+const FORM_TURNSTILE_SITE_KEY = '0x4AAAAAAFkO0mkyXSB0jyfq';
 const FORM_TURNSTILE_WIDGETS = new WeakMap();
 const FORM_COOLDOWN_MS = 30000;
 const FORM_COOLDOWN_KEY = 'alltagshilfe-formular-letzter-erfolg';
