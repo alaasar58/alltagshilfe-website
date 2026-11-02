@@ -333,8 +333,8 @@ function turnstileEinrichten(){
 
       const container = document.createElement('div');
       container.className = 'form-turnstile';
-      /* Kompaktes, helles Cloudflare-Widget mittig ueber dem Senden-Button. */
-      container.style.width = '150px';
+      /* Flaches Cloudflare-Widget (normal statt hohem compact) zentriert. */
+      container.style.width = '300px';
       container.style.maxWidth = '100%';
       container.style.margin = '0 auto 12px';
       button.parentNode.insertBefore(container, button);
@@ -343,7 +343,7 @@ function turnstileEinrichten(){
         sitekey: FORM_TURNSTILE_SITE_KEY,
         action: 'kontakt',
         appearance: 'always',
-        size: 'compact',
+        size: 'normal',
         theme: 'light',
         'response-field': true,
         'response-field-name': 'cf-turnstile-response'
