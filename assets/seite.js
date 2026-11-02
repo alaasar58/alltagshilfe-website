@@ -339,7 +339,7 @@ function turnstileEinrichten(){
       const widgetId = window.turnstile.render(container, {
         sitekey: FORM_TURNSTILE_SITE_KEY,
         action: 'kontakt',
-        appearance: 'interaction-only',
+        appearance: 'always',
         theme: 'auto',
         'response-field': true,
         'response-field-name': 'cf-turnstile-response'
